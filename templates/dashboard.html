@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>思维成长档案</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f4f4f9; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 20px 30px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.05); }
+        h1 { border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        h2 { color: #444; border-left: 4px solid #007bff; padding-left: 10px; }
+        h3 { color: #555; }
+        .loading, .error { text-align: center; padding: 20px; color: #888; font-style: italic; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* 长期报告样式 */
+        #analysis-content { background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 5px; padding: 20px; }
+        .skill-evolution-item { margin-bottom: 15px; }
+        .skill-evolution-item .skill-name { font-weight: bold; font-size: 1.1em; }
+        .skill-evolution-item .trajectory { color: #28a745; margin-left: 10px; }
+        .skill-evolution-item .evidence { font-style: italic; color: #666; border-left: 3px solid #ccc; padding-left: 10px; margin-top: 5px; }
+        .recommendation { margin-top: 20px; padding: 15px; background: #e2f0ff; border-left: 5px solid #007bff; }
+
+        /* 历史对话列表样式 */
+        #conversation-list { list-style: none; padding: 0; }
+        #conversation-list li { background: #f8f9fa; margin-bottom: 10px; padding: 15px; border-radius: 5px; border: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; }
+        #conversation-list .topic { font-weight: bold; font-size: 1.1em; }
+        #conversation-list .date { color: #666; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ username }} 的思维成长档案</h1>
+
+        <div id="long-term-analysis-section">
+            <h2>长期能力评估</h2>
+            <div id="analysis-content">
+                <p class="loading">AI教育评估专家正在分析您的所有历史对话，这可能需要一点时间，请稍候...</p>
+            </div>
+        </div>
+
+        <div id="history-section">
+            <h2>历史对话列表</h2>
+            <ul id="conversation-list">
+                <li class="loading">正在加载历史对话...</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const currentUserId = {{ user_id }};
+        const analysisContainer = document.getElementById('analysis-content');
+        const conversationListElement = document.getElementById('conversation-list');
+
+        // 定义渲染长期报告的函数
+        async function fetchAndDisplayAnalysis() {
+            try {
+                const response = await fetch(`/api/get_long_term_analysis/${currentUserId}`);
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                let reportHtml = `
+                    <p>${data.overall_progression_summary}</p>
+                    <h3>核心能力演进轨迹</h3>
+                `;
+
+                data.cognitive_skills_evolution.forEach(skill => {
+                    reportHtml += `
+                        <div class="skill-evolution-item">
+                            <span class="skill-name">${skill.skill_name}:</span>
+                            <span class="trajectory">${skill.trajectory}</span>
+                            <div class="evidence">佐证: ${skill.evidence}</div>
+                        </div>
+                    `;
+                });
+
+                reportHtml += `<div class="recommendation"><strong>下一阶段建议:</strong> ${data.recommendation_for_next_stage}</div>`;
+
+                analysisContainer.innerHTML = reportHtml;
+
+            } catch (error) {
+                console.error('Failed to fetch long term analysis:', error);
+                analysisContainer.innerHTML = `<p class="error">生成长期评估报告失败。可能是对话数据不足或服务器错误。</p>`;
+            }
+        }
+
+        // 定义渲染历史对话列表的函数
+        async function fetchAndDisplayConversations() {
+            try {
+                const response = await fetch(`/api/get_conversations/${currentUserId}`);
+                const conversations = await response.json();
+                if (conversations.error) throw new Error(conversations.error);
+
+                conversationListElement.innerHTML = ''; 
+                if (conversations.length === 0) {
+                    conversationListElement.innerHTML = '<li>暂无历史对话记录。</li>';
+                    // 如果没有历史，也就不需要做长期分析
+                    analysisContainer.innerHTML = `<p class="error">暂无对话记录，无法生成长期评估报告。</p>`;
+                    return;
+                }
+
+                conversations.forEach(convo => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <div><span class="topic">${convo.topic}</span></div>
+                        <span class="date">${convo.start_time}</span>
+                    `;
+                    conversationListElement.appendChild(li);
+                });
+
+                // 只有在成功加载对话列表后，才去获取长期分析报告
+                fetchAndDisplayAnalysis();
+
+            } catch (error) {
+                console.error('Failed to fetch conversations:', error);
+                conversationListElement.innerHTML = '<li class="error">加载历史对话失败。</li>';
+                analysisContainer.innerHTML = ''; // 清空分析区
+            }
+        }
+
+        // 页面加载时，启动所有数据的加载
+        window.addEventListener('load', fetchAndDisplayConversations);
+    </script>
+</body>
+</html>

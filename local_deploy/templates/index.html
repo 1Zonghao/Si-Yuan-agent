@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>思源 - 批判性思维引导智能体</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 整体布局与现代化美化 --- */
+        body { 
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 更改字体为更圆润的思源黑体 */
+            margin: 0; 
+            background-color: #0d1117; /* 深色背景，更酷 */
+            color: #c9d1d9; /* 浅色文本 */
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; /* 确保占满整个视口 */
+            padding: 20px;
+        }
+        #app-container { 
+            display: flex; 
+            width: 90%; 
+            max-width: 1300px; /* 稍微放大容器 */
+            height: 90vh; 
+            background: #161b22; /* 容器背景稍亮于 body */
+            border-radius: 20px; /* 整体圆角 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            overflow: hidden; /* 确保内部内容不溢出 */
+        }
+
+        /* --- 聊天区域 --- */
+        #chat-container {
+            flex: 2; /* 聊天区占更大比例 */
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #2f363d;
+        }
+
+        /* --- 用户/控制面板 --- */
+        #user-panel {
+            padding: 15px 20px;
+            background: #1e242c; /* 顶部面板背景 */
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #2f363d;
+        }
+        
+        #user-panel > * {
+            margin-right: 10px;
+            margin-bottom: 5px;
+        }
+
+        /* 下拉菜单和按钮样式增强 */
+        select, button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 12px; /* 圆角按钮 */
+            font-family: 'Noto Sans SC', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        select {
+            background: #2d333b;
+            color: #c9d1d9;
+            border: 1px solid #444c56;
+        }
+        
+        #dashboard-button, #new-convo-button {
+            background: #444c56;
+            color: #c9d1d9;
+        }
+        #dashboard-button:hover, #new-convo-button:hover {
+            background: #5a646e;
+        }
+
+        /* 渐变色主按钮 */
+        #mindmap-button, #analysis-button {
+            background: linear-gradient(135deg, #764ba2 0%, #4c68d7 100%); /* 渐变 */
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(100, 75, 162, 0.3);
+        }
+        #mindmap-button:hover, #analysis-button:hover {
+            filter: brightness(1.1);
+        }
+
+        /* --- 聊天消息区域 --- */
+        #chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            background: #1a202c; /* 消息背景色 */
+        }
+        
+
+        /* --- 工具状态栏 --- */
+        #tool-status-bar {
+            padding: 10px 20px;
+            background: #232a35;
+            color: #9aa5b1;
+            border-top: 1px solid #2f363d;
+            display: none; /* 默认隐藏 */
+            align-items: center;
+            font-size: 14px;
+            border-radius: 16px; /* 更圆润 */
+            margin: 10px 20px;
+        }
+        
+        /* --- 输入区域 --- */
+        #input-area {
+            display: flex;
+            align-items: flex-end;
+            padding: 10px 20px;
+            border-top: 1px solid #2f363d;
+            background: #161b22;
+        }
+
+        #message-input {
+            flex-grow: 1;
+            padding: 12px 18px;
+            border: 1px solid #444c56;
+            border-radius: 20px; /* 更圆润 */
+            background: #2d333b;
+            color: #c9d1d9;
+            resize: none;
+            overflow-y: hidden;
+            font-family: 'Noto Sans SC', sans-serif;
+            line-height: 1.5;
+            margin-right: 10px;
+            max-height: 150px;
+        }
+
+        #send-button {
+            height: 44px; /* 配合输入框高度 */
+            min-width: 80px;
+            border-radius: 20px; /* 更圆润 */
+            background: linear-gradient(135deg, #4c68d7 0%, #764ba2 100%); /* 渐变 */
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(76, 104, 215, 0.4);
+            transition: all 0.3s ease;
+        }
+        #send-button:hover {
+            filter: brightness(1.1);
+            box-shadow: 0 6px 20px rgba(76, 104, 215, 0.6);
+        }
+        
+        /* --- 辅助面板 (右侧) --- */
+        #auxiliary-panel {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #161b22;
+        }
+        .panel-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #2f363d;
+            border-radius: 15px; /* 圆角 */
+            background: #1e242c;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #8cafff; /* 浅蓝色标题 */
+            border-bottom: 2px solid #3e5066;
+            padding-bottom: 8px;
+            margin-top: 0;
+            font-weight: 600;
+        }
+
+        /* --- 欢迎对话框样式 (新增) --- */
+        .welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85); /* 深色半透明背景 */
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            transition: opacity 0.3s ease;
+        }
+
+        .welcome-overlay.hidden {
+            display: none;
+            opacity: 0;
+        }
+
+        .welcome-card {
+            background: #1e242c; /* 欢迎卡片背景 */
+            padding: 40px 60px;
+            border-radius: 24px; /* 非常圆润 */
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            transform: scale(1);
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        #welcome-text {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            /* 模仿Gemini的彩色渐变 */
+            background: linear-gradient(90deg, #4285F4, #34A853, #FBBC05, #EA4335);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-card p {
+            font-size: 1.2em;
+            color: #a8b3c0;
+            margin-bottom: 30px;
+        }
+
+        #start-chat-button {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            background: linear-gradient(45deg, #4c68d7 0%, #764ba2 100%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 104, 215, 0.4);
+        }
+
+        #start-chat-button:hover {
+            filter: brightness(1.1);
+            box-shadow: 0 6px 20px rgba(76, 104, 215, 0.6);
+        }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='tool_status.css') }}">
+</head>
+<body>
+    <div id="welcome-overlay" class="welcome-overlay hidden">
+        <div class="welcome-card">
+            <h1 id="welcome-text">Hi, 用户名!</h1>
+            <p>我是思源AI，您的批判性思维导师。请开始您的探索之旅。</p>
+            <button id="start-chat-button">开始对话</button>
+        </div>
+    </div>
+    
+    <div id="app-container">
+        <div id="chat-container">
+            <div id="user-panel">
+                <select id="user-select"></select>
+				<button id="new-convo-button">开始新对话</button>
+                <button id="dashboard-button">思维成长档案</button>
+                <span class="mode-select-label">模式:</span>
+                <select id="mode-select">
+                    <option value="socratic">苏格拉底式 (Socratic)</option>
+                    <option value="adversarial">杠精模式 (Adversarial)</option>
+                    <option value="collaborative">协作伙伴 (Collaborative)</option>
+                </select>
+                
+            </div>
+
+            <div id="chat-messages">
+                
+            </div>
+
+            <div id="tool-status-bar">
+                <div class="status-spinner"></div>
+                <div class="status-text">
+                    智能体正在调用工具: <span id="tool-name">...</span>
+                </div>
+                <div class="status-timer" id="tool-timer">0.0s</div>
+            </div>
+
+            <div id="input-area">
+                <textarea id="message-input" placeholder="输入您的问题或想法..." rows="1"></textarea>
+                <button id="send-button">发送</button>
+            </div>
+        </div>
+
+    <script src="{{ url_for('static', filename='chat_interface.js') }}"></script>
+
+    <script>
+        // 自动调整 textarea 高度
+        const userInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const userSelect = document.getElementById('user-select');
+
+        userInput.addEventListener('input', () => {
+            userInput.style.height = 'auto';
+            userInput.style.height = (userInput.scrollHeight) + 'px';
+        });
+
+        // 绑定事件（其余逻辑在 chat_interface.js 中）
+        
+        // 页面加载时执行
+        fetchUsers();
+    </script>
+</body>
+</html>

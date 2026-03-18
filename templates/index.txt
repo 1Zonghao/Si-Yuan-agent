@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>思源 - 批判性思维引导智能体</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='tool_status.css') }}">
+        
+    </style>
+</head>
+<body>
+    <div id="app-container">
+        <div id="chat-container">
+            <div id="user-panel">
+                <select id="user-select"></select>
+		<button id="new-convo-button">开始新对话</button>
+                <button id="dashboard-button">思维成长档案</button>
+                <span class="mode-select-label">模式:</span>
+                <select id="mode-select">
+                    <option value="socratic">苏格拉底式 (Socratic)</option>
+                    <option value="adversarial">杠精模式 (Adversarial)</option>
+                    <option value="collaborative">协作伙伴 (Collaborative)</option>
+                </select>
+                <button id="mindmap-button">生成思维导图</button>
+                <button id="analysis-button">对话简报</button>
+            </div>
+
+            <div id="chat-messages">
+                </div>
+
+            <div id="tool-status-bar">
+                <div class="status-spinner"></div>
+                <div class="status-text">
+                    智能体正在调用工具: <span id="tool-name">...</span>
+                </div>
+                <div class="status-timer" id="tool-timer">0.0s</div>
+            </div>
+
+            <div id="input-area">
+                <textarea id="message-input" ...> placeholder="输入您的问题或想法..." rows="1"></textarea>
+                <button id="send-button">发送</button>
+            </div>
+        </div>
+
+        <div id="auxiliary-panel">
+            <div class="panel-section">
+                <h2>📊 思维导图 (Mindmap)</h2>
+                <div id="mindmap-container">图表将显示在此处</div>
+            </div>
+
+            <div class="panel-section">
+                <h2>📝 对话简报 (Analysis Report)</h2>
+                <div id="analysis-report-container">点击“对话简报”按钮生成。</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='chat_interface.js') }}"></script>
+    </script>
+</body>
+</html>

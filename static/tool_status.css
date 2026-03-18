@@ -1,0 +1,424 @@
+/* tool_status.css - 工具调用状态显示样式 */
+
+/* 消息容器 */
+.message {
+    margin: 16px 0;
+    padding: 12px 16px;
+    border-radius: 12px;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.user-message {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    margin-left: 20%;
+}
+
+.ai-message {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    margin-right: 20%;
+}
+
+/* 消息头部 */
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.sender {
+    font-weight: 600;
+}
+
+.timestamp {
+    color: #718096;
+}
+
+/* 工具调用状态容器 */
+.tool-status {
+    margin: 12px 0;
+    padding: 0;
+}
+
+/* 单个工具调用状态 */
+.tool-call-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    margin: 8px 0;
+    border-radius: 8px;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.tool-call-status.active {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+    border-left: 4px solid #f39c12;
+    animation: pulse 2s infinite;
+}
+
+.tool-call-status.success {
+    background: linear-gradient(135deg, #a8e6cf 0%, #81c784 100%);
+    border-left: 4px solid #4caf50;
+}
+
+.tool-call-status.error {
+    background: linear-gradient(135deg, #ffb3ba 0%, #ff6b81 100%);
+    border-left: 4px solid #e74c3c;
+}
+
+.tool-call-status.fallback {
+    background: linear-gradient(135deg, #c7ecee 0%, #7fb3d5 100%);
+    border-left: 4px solid #3498db;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.85;
+    }
+}
+
+/* 工具图标 */
+.tool-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+/* 工具信息 */
+.tool-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.tool-name {
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 4px;
+}
+
+.tool-args {
+    font-size: 11px;
+    color: #4a5568;
+    opacity: 0.9;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 工具进度 */
+.tool-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #4a5568;
+}
+
+.spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #f3f4f6;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.success-icon {
+    color: #10b981;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.error-icon {
+    color: #ef4444;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* 工具时间 */
+.tool-time {
+    font-size: 11px;
+    color: #9ca3af;
+    flex-shrink: 0;
+}
+
+/* 工具结果容器 */
+.tool-result {
+    margin: 16px 0;
+    padding: 16px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    animation: expandIn 0.4s ease;
+}
+
+@keyframes expandIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e5e7eb;
+    margin-bottom: 16px;
+}
+
+.result-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #1f2937;
+}
+
+.expand-btn {
+    padding: 6px 12px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+}
+
+.expand-btn:hover {
+    background: #2563eb;
+}
+
+/* 结果内容 */
+.result-content {
+    color: #374151;
+    line-height: 1.6;
+}
+
+/* 思维导图结果 */
+.mindmap-result .result-content {
+    padding: 8px 0;
+}
+
+/* 分析报告样式 */
+.analysis-result .summary-section,
+.analysis-result .strengths-section,
+.analysis-result .weaknesses-section {
+    margin-bottom: 20px;
+}
+
+.analysis-result h4 {
+    font-size: 14px;
+    color: #1f2937;
+    margin-bottom: 12px;
+    padding-left: 12px;
+    border-left: 3px solid #3b82f6;
+}
+
+.point-item {
+    padding: 12px;
+    margin: 8px 0;
+    background: #f9fafb;
+    border-radius: 8px;
+    border-left: 3px solid #10b981;
+}
+
+.weaknesses-section .point-item {
+    border-left-color: #f59e0b;
+}
+
+.point-label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.point-example {
+    font-size: 13px;
+    color: #6b7280;
+    font-style: italic;
+    padding-left: 12px;
+    border-left: 2px solid #e5e7eb;
+}
+
+/* 搜索结果样式 */
+.search-result .facts-section,
+.search-result .cases-section,
+.search-result .angles-section {
+    margin-bottom: 16px;
+}
+
+.search-result h4 {
+    font-size: 14px;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.search-result ul {
+    list-style: none;
+    padding: 0;
+}
+
+.search-result li {
+    padding: 8px 12px;
+    margin: 6px 0;
+    background: #f0fdf4;
+    border-radius: 6px;
+    border-left: 3px solid #10b981;
+}
+
+.search-result li::before {
+    content: "→ ";
+    color: #10b981;
+    font-weight: bold;
+}
+
+/* 逻辑检查结果样式 */
+.logic-result .structure-section {
+    padding: 12px;
+    background: #eff6ff;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.logic-result .fallacies-section {
+    padding: 12px;
+    background: #fef3c7;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.logic-result .fallacies-section h4 {
+    color: #d97706;
+}
+
+.logic-result .logic-strengths ul {
+    list-style: none;
+    padding: 0;
+}
+
+.logic-result .logic-strengths li {
+    padding: 8px 12px;
+    margin: 6px 0;
+    background: #d1fae5;
+    border-radius: 6px;
+}
+
+.logic-result .logic-weaknesses ul {
+    list-style: none;
+    padding: 0;
+}
+
+.logic-result .logic-weaknesses li {
+    padding: 8px 12px;
+    margin: 6px 0;
+    background: #fee2e2;
+    border-radius: 6px;
+}
+
+/* 降级方案消息 */
+.fallback-message {
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
+}
+
+.fallback-message .result-content {
+    color: #78350f;
+}
+
+/* 错误消息 */
+.error-message {
+    color: #dc2626;
+    font-weight: 500;
+}
+
+/* 消息内容 */
+.message-content {
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .user-message {
+        margin-left: 10%;
+    }
+    
+    .ai-message {
+        margin-right: 10%;
+    }
+    
+    .tool-call-status {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .tool-time {
+        align-self: flex-end;
+    }
+}
+
+/* 滚动条样式 */
+#chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+/* --- 修复 AI 消息可读性 (添加到文件末尾) --- */
+
+.ai-message .sender {
+    color: #1f2937; /* 将 "思源AI" 标题加深为近黑色 */
+    font-weight: 600;  /* 同时加粗 */
+}
+
+.ai-message .timestamp {
+    color: #5a687c; /* 将时间戳文字加深 */
+}
+
+.ai-message .message-content {
+    color: #1a202c; /* 将 AI 的主要回复内容加深为近黑色 */
+}
+
+/* --- 结束修复 --- */

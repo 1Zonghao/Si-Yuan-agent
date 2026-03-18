@@ -3,6 +3,14 @@
 
 > **一位专业的"苏格拉底式导师"和"思维助产士"**
 
+---
+
+### 🌐 语言切换 | Language Switch
+
+[**🇨🇳 中文**](README.md) | [**🇺🇸 English**](README.en.md)
+
+---
+
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.1.1-green.svg)](https://flask.palletsprojects.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -102,7 +110,8 @@ agent/
 ├── create_db.py           # 数据库初始化脚本
 ├── manage_users.py        # 用户管理工具
 ├── requirements.txt       # Python 依赖
-├── README.md              # 项目说明文档
+├── README.md              # 项目说明文档 (中文)
+├── README.en.md           # 项目说明文档 (英文)
 ├── .gitignore             # Git 忽略配置
 ├── static/                # 静态资源
 │   ├── chat_interface.js  # 聊天界面交互逻辑

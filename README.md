@@ -117,7 +117,7 @@ agent/
 
 ## 🔧 安装与部署
 
-### 方式一：在线体验 (推荐)
+### 方式一：在线体验 (服务器到期了，用不了/(ㄒoㄒ)/~~)
 
 项目已部署在公网，可直接访问：
 
@@ -125,7 +125,7 @@ agent/
 http://47.243.124.31/
 ```
 
-### 方式二：本地部署
+### 方式二：本地部署(推荐)
 
 #### 1. 环境要求
 - Python 3.8+
@@ -286,7 +286,6 @@ python app.py
 ## 📬 联系方式
 
 - **GitHub**: [@1Zonghao](https://github.com/1Zonghao/Si-Yuan-agent)
-- **项目主页**: http://47.243.124.31/
 - **Issue 反馈**: [GitHub Issues](https://github.com/1Zonghao/Si-Yuan-agent/issues)
 
 ---
@@ -306,6 +305,6 @@ python app.py
 
 **🌟 如果这个项目对你有帮助，请给一个 Star!**
 
-Made with ❤️ by Paul
+Made with ❤️ by Zonghao Ye,Xinyang Li,Jiankai He
 
 </div>

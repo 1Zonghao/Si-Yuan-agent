@@ -307,6 +307,6 @@ Thanks to the following open-source projects and technologies:
 
 **🌟 If this project helps you, please give it a Star!**
 
-Made with ❤️ by Zonghao  Ye, Xinyang Li , Jiankai He
+Made with ❤️ by the Si-Yuan-Agent contributors
 
 </div>

@@ -315,6 +315,6 @@ python app.py
 
 **🌟 如果这个项目对你有帮助，请给一个 Star!**
 
-Made with ❤️ by Zonghao Ye,Xinyang Li,Jiankai He
+Made with ❤️ by the Si-Yuan-Agent contributors
 
 </div>

@@ -16,20 +16,20 @@ with app.app_context():
 
     # 检查并创建初始用户
     print("正在检查并创建初始用户...")
-    if not User.query.filter_by(username='叶宗豪').first():
-        user1 = User(username='叶宗豪')
+    if not User.query.filter_by(username='user_1').first():
+        user1 = User(username='user_1')
         db.session.add(user1)
-        print("- 用户 '叶宗豪' 已添加。")
+        print("- 用户 'user_1' 已添加。")
 
-    if not User.query.filter_by(username='李昕阳').first():
-        user2 = User(username='李昕阳')
+    if not User.query.filter_by(username='user_2').first():
+        user2 = User(username='user_2')
         db.session.add(user2)
-        print("- 用户 '李昕阳' 已添加。")
+        print("- 用户 'user_2' 已添加。")
 
-    if not User.query.filter_by(username='何健恺').first():
-        user3 = User(username='何健恺')
+    if not User.query.filter_by(username='user_3').first():
+        user3 = User(username='user_3')
         db.session.add(user3)
-        print("- 用户 '何健恺' 已添加。")
+        print("- 用户 'user_3' 已添加。")
 
     # 提交所有更改到数据库
     db.session.commit()

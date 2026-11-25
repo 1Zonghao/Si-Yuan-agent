@@ -5,9 +5,9 @@ from app import app, db, User
 # 在这里定义你想做的修改
 # 格式是： '旧名字': '新名字'
 name_changes = {
-    '叶宗豪': '叶师傅',
-    '李昕阳': '李大人',
-    '何健恺': '小何子',
+    'sample_user_1': 'sample_user_1_updated',
+    'sample_user_2': 'sample_user_2_updated',
+    'sample_user_3': 'sample_user_3_updated',
     # 如果有其他需要修改的，继续在这里添加
 }
 # 2. 在这里定义你想添加的新用户名
